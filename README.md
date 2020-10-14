@@ -4,6 +4,8 @@ I was inspired by [this project](https://github.com/ecyrbe/triste/blob/master/RE
 
 It was built with React and React hooks, it's very simple and lightweight game
 
+Try the game [here](https://congdv.github.io/snake-clone/)
+
 ## Screen Shot
 
 ![game screenshot](screenshot.png)
