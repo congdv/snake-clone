@@ -1,38 +1,126 @@
+:root {
+  --none: lightgray;
+  --i: #27496d;
+  --o: #d7385e;
+  --e: #0c7b93;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.board {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 30px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.help {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 15px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.descriptions {
+  font-weight: 800;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.instructions {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.border {
+  color: gray;
+  border-width: 3px;
+  border-style: solid;
+}
+
+.block-line {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.square {
+  float: left;
+  width: 12px;
+  border-width: 2px;
+  border-style: solid;
+  padding: 2px;
+  margin: 1px;
+}
+
+.square.none {
+  border-color: var(--none);
+}
+
+.square.highlight {
+  border-color: var(--i);
+}
+
+.intern-square {
+  width: 12px;
+  height: 12px;
+}
+
+.intern-square.none {
+  background: var(--none);
+}
+
+.intern-square.highlight {
+  background: var(--i);
+}
+
+.intern-square.food {
+  background: var(--o);
+}
+.intern-square.eat {
+  background: var(--e);
+}
+
+
+.stats {
+  margin-left: 25px;
+  color: gray;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.scores {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 10px;
+  vertical-align: middle;
+}
+.score {
+  font-weight: 800;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.values {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
