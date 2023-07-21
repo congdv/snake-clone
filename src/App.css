@@ -38,6 +38,14 @@
   align-items: flex-start;
 }
 
+.state-bar {
+  height: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .lines {
   display: flex;
@@ -93,15 +101,18 @@
 .intern-square.eat {
   background: var(--e);
 }
+.game-over {
+  background-color: var(--o);
+}
 
 
 .stats {
   margin-left: 25px;
   color: gray;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .scores {
