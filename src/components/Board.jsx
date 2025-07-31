@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Cell from './Cell';
+import Cell from './Cell.jsx';
 import useKeyboard from '../hooks/useKeyboard';
 import useGame, { gameState } from '../hooks/useGame';
-import Help from './Help';
-import Stats from './Stats';
+import Help from './Help.jsx';
+import Stats from './Stats.jsx';
 
 const Board = () => {
   const { state, board, foodPosX, foodPosY, snake, up, down, right, left, apples, togglePause, restart } = useGame();

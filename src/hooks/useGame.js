@@ -19,15 +19,6 @@ const getInitBoard = (width, height) => {
   return new Array(height).fill(new Array(width)).map((line) => line.fill(0));
 };
 
-const isCollision = (pieces) => {
-  for (let i = 3; i < pieces.length; i++) {
-    if (pieces[0].x === pieces[i].x && pieces[0].y === pieces[i].y) {
-      return true;
-    }
-  }
-  return false;
-};
-
 const useGame = (width = 10, height = 20) => {
   const [board] = useState(() => getInitBoard(width, height));
   const [state, setState] = useState(gameState.PAUSED);
@@ -40,13 +31,23 @@ const useGame = (width = 10, height = 20) => {
   const [currDirection, setDirection] = useState(direction.UP);
   const [apples, setApples] = useState(0);
 
-  const newFoodPosX = useCallback(() => {
-    setFoodX(parseInt(Math.random() * width));
-  }, [width]);
+  const generateNewFoodPosition = useCallback((currentSnake = snake) => {
+    let newX, newY;
+    let attempts = 0;
+    const maxAttempts = width * height; // Prevent infinite loop
 
-  const newFoodPosY = useCallback(() => {
-    setFoodY(parseInt(Math.random() * height));
-  }, [height]);
+    do {
+      newX = Math.floor(Math.random() * width);
+      newY = Math.floor(Math.random() * height);
+      attempts++;
+    } while (
+      attempts < maxAttempts &&
+      currentSnake.some(segment => segment.x === newX && segment.y === newY)
+    );
+
+    setFoodX(newX);
+    setFoodY(newY);
+  }, [width, height]);
 
   const up = useCallback(() => {
     setDirection(direction.UP);
@@ -75,92 +76,70 @@ const useGame = (width = 10, height = 20) => {
       { x: 5, y: 5 },
       { x: 5, y: 6 }
     ]);
+    setApples(0);
+    setFoodX(Math.floor(Math.random() * width));
+    setFoodY(Math.floor(Math.random() * height));
   };
 
   useInterval(() => {
     if (state === gameState.PAUSED || state === gameState.GAMEOVER) return;
+
     const head = snake[0];
-    snake.pop();
-    let x = head.x;
-    let y = head.y;
+    let newX = head.x;
+    let newY = head.y;
+
+    // Calculate new head position based on direction
     switch (currDirection) {
       case direction.UP:
-        y = head.y === 0 ? height - 1 : head.y - 1;
+        newY = head.y === 0 ? height - 1 : head.y - 1;
         break;
       case direction.DOWN:
-        y = y === height - 1 ? 0 : y + 1;
+        newY = newY === height - 1 ? 0 : newY + 1;
         break;
       case direction.LEFT:
-        x = x === 0 ? width - 1 : x - 1;
+        newX = newX === 0 ? width - 1 : newX - 1;
         break;
       case direction.RIGHT:
-        x = x === width - 1 ? 0 : x + 1;
+        newX = newX === width - 1 ? 0 : newX + 1;
         break;
       default:
         break;
     }
-    setSnake([
-      {
-        x,
-        y
-      },
-      ...snake
-    ]);
+
+    const newHead = { x: newX, y: newY };
+
+    // Check if food is eaten
+    const ateFood = newX === foodPosX && newY === foodPosY;
+
+    // Create new snake
+    const newSnake = [newHead, ...snake];
+
+    // If no food eaten, remove tail (snake doesn't grow)
+    if (!ateFood) {
+      newSnake.pop();
+    } else {
+      // Food eaten - snake grows, generate new food, increment score
+      setApples(prev => prev + 1);
+      generateNewFoodPosition(newSnake);
+    }
+
+    // Check for collision with self (skip head)
+    const collision = newSnake.slice(1).some(segment =>
+      segment.x === newHead.x && segment.y === newHead.y
+    );
+
+    if (collision) {
+      setState(gameState.GAMEOVER);
+      return;
+    }
+
+    setSnake(newSnake);
   }, Math.floor((1000 * 22) / 60));
 
-  /**
-   * Food Position
-   */
+  // Initialize food position on mount and when snake changes
   useEffect(() => {
-    //ate food
-    if (snake[0].x === foodPosX && snake[0].y === foodPosY) {
-      switch (currDirection) {
-        case direction.UP:
-          setSnake([
-            ...snake,
-            {
-              x: snake[snake.length - 1].x,
-              y: snake[snake.length - 1].y - 1
-            }
-          ]);
-          break;
-        case direction.DOWN:
-          setSnake([
-            ...snake,
-            {
-              x: snake[snake.length - 1].x,
-              y: snake[snake.length - 1].y + 1
-            }
-          ]);
-          break;
-        case direction.LEFT:
-          setSnake([
-            ...snake,
-            {
-              x: snake[snake.length - 1].x - 1,
-              y: snake[snake.length - 1].y
-            }
-          ]);
-          break;
-        case direction.RIGHT:
-          setSnake([
-            ...snake,
-            {
-              x: snake[snake.length - 1].x + 1,
-              y: snake[snake.length - 1].y
-            }
-          ]);
-          break;
-        default:
-          break;
-      }
-      newFoodPosX();
-      newFoodPosY();
-      setApples((prev) => prev + 1);
-    } else if (isCollision(snake)) {
-      setState(gameState.GAMEOVER);
-    }
-  }, [currDirection, foodPosX, foodPosY, newFoodPosX, newFoodPosY, snake]);
+    generateNewFoodPosition();
+  }, []); // Only run on mount
 
   return {
     state,
