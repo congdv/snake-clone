@@ -50,20 +50,32 @@ const useGame = (width = 10, height = 20) => {
   }, [width, height]);
 
   const up = useCallback(() => {
-    setDirection(direction.UP);
-  }, []);
+    // Prevent moving directly backwards into the snake body
+    if (currDirection !== direction.DOWN) {
+      setDirection(direction.UP);
+    }
+  }, [currDirection]);
 
   const down = useCallback(() => {
-    setDirection(direction.DOWN);
-  }, []);
+    // Prevent moving directly backwards into the snake body
+    if (currDirection !== direction.UP) {
+      setDirection(direction.DOWN);
+    }
+  }, [currDirection]);
 
   const left = useCallback(() => {
-    setDirection(direction.LEFT);
-  }, []);
+    // Prevent moving directly backwards into the snake body
+    if (currDirection !== direction.RIGHT) {
+      setDirection(direction.LEFT);
+    }
+  }, [currDirection]);
 
   const right = useCallback(() => {
-    setDirection(direction.RIGHT);
-  }, []);
+    // Prevent moving directly backwards into the snake body
+    if (currDirection !== direction.LEFT) {
+      setDirection(direction.RIGHT);
+    }
+  }, [currDirection]);
 
   const togglePause = () => {
     if (state === gameState.GAMEOVER) return;
@@ -108,6 +120,17 @@ const useGame = (width = 10, height = 20) => {
 
     const newHead = { x: newX, y: newY };
 
+    // Check for collision with self BEFORE creating new snake
+    // We check against the current snake body (excluding head which will be replaced)
+    const collision = snake.slice(1).some(segment =>
+      segment.x === newHead.x && segment.y === newHead.y
+    );
+
+    if (collision) {
+      setState(gameState.GAMEOVER);
+      return;
+    }
+
     // Check if food is eaten
     const ateFood = newX === foodPosX && newY === foodPosY;
 
@@ -121,16 +144,6 @@ const useGame = (width = 10, height = 20) => {
       // Food eaten - snake grows, generate new food, increment score
       setApples(prev => prev + 1);
       generateNewFoodPosition(newSnake);
-    }
-
-    // Check for collision with self (skip head)
-    const collision = newSnake.slice(1).some(segment =>
-      segment.x === newHead.x && segment.y === newHead.y
-    );
-
-    if (collision) {
-      setState(gameState.GAMEOVER);
-      return;
     }
 
     setSnake(newSnake);

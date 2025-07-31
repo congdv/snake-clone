@@ -1,8 +1,7 @@
-import React from 'react';
 
-import Cell from './Cell.jsx';
-import useKeyboard from '../hooks/useKeyboard';
 import useGame, { gameState } from '../hooks/useGame';
+import useKeyboard from '../hooks/useKeyboard';
+import Cell from './Cell.jsx';
 import Help from './Help.jsx';
 import Stats from './Stats.jsx';
 
