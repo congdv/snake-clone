@@ -67,6 +67,33 @@
   margin: 2px 0 0 0;
 }
 
+.gameboy-top-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.github-link {
+  color: #2d3d2d;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.github-link:hover {
+  color: #1a1a1a;
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.github-link svg {
+  display: block;
+}
+
 .power-led {
   width: 10px;
   height: 10px;
