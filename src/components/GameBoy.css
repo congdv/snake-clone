@@ -352,34 +352,36 @@
   }
 
   .gameboy-controls {
-    height: 110px;
+    height: 140px;
+    /* Increased from 110px */
     padding: 20px 10px;
   }
 
   .dpad-container {
-    width: 75px;
-    height: 75px;
+    width: 110px;
+    /* Increased from 75px */
+    height: 110px;
+    /* Increased from 75px */
   }
 
   .dpad-button {
-    font-size: 14px;
+    font-size: 18px;
+    border-width: 3px;
   }
 
   .action-button {
-    width: 42px;
-    height: 42px;
-    font-size: 14px;
+    width: 55px;
+    height: 55px;
+    font-size: 16px;
   }
 
   .ab-buttons {
-    gap: 15px;
+    gap: 18px;
   }
 
-
-
   .control-button {
-    padding: 5px 10px;
-    font-size: 8px;
+    padding: 8px 14px;
+    font-size: 9px;
   }
 
   .gameboy-container .cell {
@@ -390,6 +392,29 @@
   .gameboy-container .stats {
     font-size: 10px;
     padding: 5px;
+  }
+
+  .dpad-section {
+    flex: 1.2;
+    justify-content: space-between;
+  }
+
+  .action-buttons {
+    flex: 0.8;
+  }
+
+  .dpad-button,
+  .action-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .gameboy-screen-area {
+    margin-bottom: 15px;
+  }
+
+  .gameboy-top {
+    margin-bottom: 10px;
   }
 }
 

@@ -32,16 +32,6 @@ const useGame = (width = 12, height = 12) => {
   const [currDirection, setDirection] = useState(direction.UP);
   const [apples, setApples] = useState(0);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const newDimensions = getBoardDimensions();
-      setDimensions(newDimensions);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   const generateNewFoodPosition = useCallback((currentSnake = snake) => {
     let newX, newY;
     let attempts = 0;

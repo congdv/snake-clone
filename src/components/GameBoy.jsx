@@ -69,7 +69,7 @@ const GameBoy = ({ children }) => {
             <div className="dpad-container">
               <button
                 className="dpad-button dpad-up"
-                onTouchStart={() => handleDPadPress('up')}
+                // onTouchStart={() => handleDPadPress('up')}
                 onClick={() => handleDPadPress('up')}
                 aria-label="Up"
               >
@@ -77,7 +77,7 @@ const GameBoy = ({ children }) => {
               </button>
               <button
                 className="dpad-button dpad-left"
-                onTouchStart={() => handleDPadPress('left')}
+                // onTouchStart={() => handleDPadPress('left')}
                 onClick={() => handleDPadPress('left')}
                 aria-label="Left"
               >
@@ -86,7 +86,7 @@ const GameBoy = ({ children }) => {
               <div className="dpad-center"></div>
               <button
                 className="dpad-button dpad-right"
-                onTouchStart={() => handleDPadPress('right')}
+                // onTouchStart={() => handleDPadPress('right')}
                 onClick={() => handleDPadPress('right')}
                 aria-label="Right"
               >
@@ -94,7 +94,7 @@ const GameBoy = ({ children }) => {
               </button>
               <button
                 className="dpad-button dpad-down"
-                onTouchStart={() => handleDPadPress('down')}
+                // onTouchStart={() => handleDPadPress('down')}
                 onClick={() => handleDPadPress('down')}
                 aria-label="Down"
               >
@@ -107,14 +107,14 @@ const GameBoy = ({ children }) => {
             <div className="ab-buttons">
               <button
                 className="action-button button-b"
-                onTouchStart={() => handleActionButton('B')}
+                // onTouchStart={() => handleActionButton('B')}
                 onClick={() => handleActionButton('B')}
               >
                 B
               </button>
               <button
                 className="action-button button-a"
-                onTouchStart={() => handleActionButton('A')}
+                // onTouchStart={() => handleActionButton('A')}
                 onClick={() => handleActionButton('A')}
               >
                 A
@@ -129,14 +129,14 @@ const GameBoy = ({ children }) => {
           <div className="select-start-buttons">
             <button
               className="control-button select-button"
-              onTouchStart={() => handleActionButton('SELECT')}
+              // onTouchStart={() => handleActionButton('SELECT')}
               onClick={() => handleActionButton('SELECT')}
             >
               SELECT
             </button>
             <button
               className="control-button start-button"
-              onTouchStart={() => handleActionButton('START')}
+              // onTouchStart={() => handleActionButton('START')}
               onClick={() => handleActionButton('START')}
             >
               START
