@@ -5,10 +5,10 @@ import Help from "./Help";
 import Stats from "./Stats";
 
 const Dashboard = () => {
-  const { apples, state } = useGameContext();
+  const { apples, state, highScore } = useGameContext();
   return (
     <div className="dashboard">
-      <Stats apples={apples} />
+      <Stats score={apples} highScore={highScore} />
       <div className="state-bar">
         {state === gameState.GAMEOVER && 'Game over'}
         {state === gameState.PAUSED && 'Game paused'}

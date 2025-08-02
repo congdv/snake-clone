@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import useInterval from '../hooks/useInterval';
+import useHighScore from './useHighScore';
 
 const direction = {
   UP: 0,
@@ -16,27 +17,35 @@ export const gameState = {
 };
 
 const getInitBoard = (width, height) => {
-  const isMobile = window.innerWidth <= 768;
-  // Should have better logic to determine the width and height for the board
-  if (isMobile) {
-    width = 11;
-    height = 18;
-  }
   return new Array(height).fill(new Array(width)).map((line) => line.fill(0));
 };
+const getResponsiveBoardSize = (initWidth, initHeight) => {
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    return {
+      width: 11,
+      height: 18
+    };
+  }
+  return {
+    width: initWidth,
+    height: initHeight
+  };
+};
 
-
-const useGame = (width = 12, height = 12) => {
+const useGame = (initWidth = 12, initHeight = 12) => {
+  const { width, height } = getResponsiveBoardSize(initWidth, initHeight);
   const [board] = useState(() => getInitBoard(width, height));
   const [state, setState] = useState(gameState.PAUSED);
   const [snake, setSnake] = useState([
-    { x: 5, y: 5 },
-    { x: 5, y: 6 }
+    { x: Math.floor(width / 2), y: Math.floor(height / 2) },
+    { x: Math.floor(width / 2), y: Math.floor(height / 2) + 1 }
   ]);
-  const [foodPosX, setFoodX] = useState(parseInt(Math.random() * width));
-  const [foodPosY, setFoodY] = useState(parseInt(Math.random() * height));
+  const [foodPosX, setFoodX] = useState(() => Math.floor(Math.random() * width));
+  const [foodPosY, setFoodY] = useState(() => Math.floor(Math.random() * height));
   const [currDirection, setDirection] = useState(direction.UP);
   const [apples, setApples] = useState(0);
+  const { highScore, updateHighScore } = useHighScore();
 
   const generateNewFoodPosition = useCallback((currentSnake = snake) => {
     let newX, newY;
@@ -60,28 +69,24 @@ const useGame = (width = 12, height = 12) => {
   }, [width, height, snake]);
 
   const up = useCallback(() => {
-    // Prevent moving directly backwards into the snake body
     if (currDirection !== direction.DOWN) {
       setDirection(direction.UP);
     }
   }, [currDirection]);
 
   const down = useCallback(() => {
-    // Prevent moving directly backwards into the snake body
     if (currDirection !== direction.UP) {
       setDirection(direction.DOWN);
     }
   }, [currDirection]);
 
   const left = useCallback(() => {
-    // Prevent moving directly backwards into the snake body
     if (currDirection !== direction.RIGHT) {
       setDirection(direction.LEFT);
     }
   }, [currDirection]);
 
   const right = useCallback(() => {
-    // Prevent moving directly backwards into the snake body
     if (currDirection !== direction.LEFT) {
       setDirection(direction.RIGHT);
     }
@@ -95,8 +100,8 @@ const useGame = (width = 12, height = 12) => {
   const restart = () => {
     setState(gameState.PAUSED);
     setSnake([
-      { x: 5, y: 5 },
-      { x: 5, y: 6 }
+      { x: Math.floor(width / 2), y: Math.floor(height / 2) },
+      { x: Math.floor(width / 2), y: Math.floor(height / 2) + 1 }
     ]);
     setDirection(direction.UP);
     setApples(0);
@@ -142,32 +147,22 @@ const useGame = (width = 12, height = 12) => {
 
     const newHead = { x: newX, y: newY };
 
-
-
-    // Check for collision with self BEFORE creating new snake
-    // We check against the current snake body (excluding head which will be replaced)
-
     const collision = snake.slice(1).some(segment =>
       segment.x === newHead.x && segment.y === newHead.y
     );
 
-
     if (collision) {
+      updateHighScore(apples)
       setState(gameState.GAMEOVER);
       return;
     }
 
-    // Check if food is eaten
     const ateFood = newX === foodPosX && newY === foodPosY;
-
-    // Create new snake
     const newSnake = [newHead, ...snake];
 
-    // If no food eaten, remove tail (snake doesn't grow)
     if (!ateFood) {
       newSnake.pop();
     } else {
-      // Food eaten - snake grows, generate new food, increment score
       setApples(prev => prev + 1);
       generateNewFoodPosition(newSnake);
     }
@@ -175,9 +170,9 @@ const useGame = (width = 12, height = 12) => {
     setSnake(newSnake);
   }, Math.floor((1000 * 22) / 60));
 
-  // Initialize food position on mount and when snake changes
   useEffect(() => {
     generateNewFoodPosition();
+    // eslint-disable-next-line
   }, []);
 
   return {
@@ -191,6 +186,7 @@ const useGame = (width = 12, height = 12) => {
     left,
     right,
     apples,
+    highScore,
     togglePause,
     restart
   };

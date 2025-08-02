@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Stats.css";
 
-const Stats = ({ apples }) => {
+const Stats = ({ score = 0, highScore = 0 }) => {
   return (
     <>
       <div className="scores">
@@ -9,7 +9,15 @@ const Stats = ({ apples }) => {
           <div>Score:</div>
         </div>
         <div className="values">
-          <div>{apples}</div>
+          <div>{score}</div>
+        </div>
+      </div>
+      <div className="scores">
+        <div className="score">
+          <div>High Score:</div>
+        </div>
+        <div className="values">
+          <div>{highScore}</div>
         </div>
       </div>
     </>
