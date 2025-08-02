@@ -73,6 +73,49 @@
   gap: 10px;
 }
 
+/* Mute Button */
+.mute-button {
+  background: none;
+  border: none;
+  color: #2d3d2d;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.mute-button:hover {
+  color: #1a1a1a;
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.mute-button:active {
+  transform: scale(0.95);
+}
+
+.mute-button svg {
+  display: block;
+  transition: all 0.2s ease;
+}
+
+/* Muted state styling */
+.mute-button.muted {
+  color: #ff4444;
+}
+
+.mute-button.muted:hover {
+  color: #ff6666;
+}
+
+.mute-button.muted svg {
+  opacity: 0.8;
+}
+
 .github-link {
   color: #2d3d2d;
   text-decoration: none;

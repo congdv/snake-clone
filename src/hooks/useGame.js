@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import useInterval from '../hooks/useInterval';
+import useGameAudio from './useGameAudio';
 import useHighScore from './useHighScore';
 
 const direction = {
@@ -46,6 +47,18 @@ const useGame = (initWidth = 12, initHeight = 12) => {
   const [currDirection, setDirection] = useState(direction.UP);
   const [apples, setApples] = useState(0);
   const { highScore, updateHighScore } = useHighScore();
+  const {
+    playMoveSound,
+    playEatSound,
+    playGameOverSound,
+    playPauseSound,
+    playStartSound,
+    toggleMute,
+    musicLoaded,
+    startBackgroundMusic,
+    isMuted,
+  } = useGameAudio();
+
 
   const generateNewFoodPosition = useCallback((currentSnake = snake) => {
     let newX, newY;
@@ -94,7 +107,13 @@ const useGame = (initWidth = 12, initHeight = 12) => {
 
   const togglePause = () => {
     if (state === gameState.GAMEOVER) return;
-    setState((prev) => (prev === gameState.PAUSED ? gameState.RUNNING : gameState.PAUSED));
+    const newState = state === gameState.PAUSED ? gameState.RUNNING : gameState.PAUSED;
+    setState(newState);
+    if (newState === gameState.RUNNING) {
+      playStartSound();
+    } else {
+      playPauseSound();
+    }
   };
 
   const restart = () => {
@@ -107,6 +126,7 @@ const useGame = (initWidth = 12, initHeight = 12) => {
     setApples(0);
     setFoodX(Math.floor(Math.random() * width));
     setFoodY(Math.floor(Math.random() * height));
+    playStartSound();
   };
 
   useInterval(() => {
@@ -154,6 +174,7 @@ const useGame = (initWidth = 12, initHeight = 12) => {
     if (collision) {
       updateHighScore(apples)
       setState(gameState.GAMEOVER);
+      playGameOverSound();
       return;
     }
 
@@ -162,9 +183,11 @@ const useGame = (initWidth = 12, initHeight = 12) => {
 
     if (!ateFood) {
       newSnake.pop();
+      playMoveSound()
     } else {
       setApples(prev => prev + 1);
       generateNewFoodPosition(newSnake);
+      playEatSound();
     }
 
     setSnake(newSnake);
@@ -174,6 +197,14 @@ const useGame = (initWidth = 12, initHeight = 12) => {
     generateNewFoodPosition();
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (musicLoaded) {
+      startBackgroundMusic();
+    }
+
+  }, [musicLoaded, startBackgroundMusic]);
+
 
   return {
     state,
@@ -185,10 +216,14 @@ const useGame = (initWidth = 12, initHeight = 12) => {
     down,
     left,
     right,
+
     apples,
     highScore,
     togglePause,
-    restart
+    restart,
+
+    toggleMute,
+    isMuted
   };
 };
 
