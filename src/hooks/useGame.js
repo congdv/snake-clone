@@ -41,7 +41,7 @@ const useGame = (width = 12, height = 12) => {
   const generateNewFoodPosition = useCallback((currentSnake = snake) => {
     let newX, newY;
     let attempts = 0;
-    const maxAttempts = width * height; // Prevent infinite loop
+    const maxAttempts = width * height;
 
     do {
       newX = Math.floor(Math.random() * width);
@@ -52,9 +52,12 @@ const useGame = (width = 12, height = 12) => {
       currentSnake.some(segment => segment.x === newX && segment.y === newY)
     );
 
+    newX = Math.max(0, Math.min(newX, width - 1));
+    newY = Math.max(0, Math.min(newY, height - 1));
+
     setFoodX(newX);
     setFoodY(newY);
-  }, [width, height]);
+  }, [width, height, snake]);
 
   const up = useCallback(() => {
     // Prevent moving directly backwards into the snake body
@@ -108,25 +111,38 @@ const useGame = (width = 12, height = 12) => {
     let newX = head.x;
     let newY = head.y;
 
-    // Calculate new head position based on direction
     switch (currDirection) {
       case direction.UP:
-        newY = head.y === 0 ? height - 1 : head.y - 1;
+        newY = head.y - 1;
         break;
       case direction.DOWN:
-        newY = newY === height - 1 ? 0 : newY + 1;
+        newY = head.y + 1;
         break;
       case direction.LEFT:
-        newX = newX === 0 ? width - 1 : newX - 1;
+        newX = head.x - 1;
         break;
       case direction.RIGHT:
-        newX = newX === width - 1 ? 0 : newX + 1;
+        newX = head.x + 1;
         break;
       default:
         break;
     }
 
+    if (newX < 0) {
+      newX = width - 1;
+    } else if (newX >= width) {
+      newX = 0;
+    }
+
+    if (newY < 0) {
+      newY = height - 1;
+    } else if (newY >= height) {
+      newY = 0;
+    }
+
     const newHead = { x: newX, y: newY };
+
+
 
     // Check for collision with self BEFORE creating new snake
     // We check against the current snake body (excluding head which will be replaced)
