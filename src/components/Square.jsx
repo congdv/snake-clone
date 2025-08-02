@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Square = ({ isHighlight, isFood, isGameOver }) => {
   const highlight = () => {
     let className = 'intern-square';

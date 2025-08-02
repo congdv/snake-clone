@@ -1,0 +1,66 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #9bbc0f;
+  box-sizing: border-box;
+  border: 1px solid rgba(15, 56, 15, 0.2);
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+
+
+.block-line {
+  display: flex;
+  color: gray;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.square {
+  float: left;
+  width: 12px;
+  border-width: 2px;
+  border-style: solid;
+  padding: 2px;
+  margin: 1px;
+}
+
+.square.none {
+  border-color: var(--none);
+}
+
+.square.highlight {
+  border-color: var(--i);
+}
+
+.intern-square {
+  width: 12px;
+  height: 12px;
+}
+
+.intern-square.none {
+  background: var(--none);
+}
+
+.intern-square.highlight {
+  background: var(--i);
+}
+
+.intern-square.food {
+  background: var(--o);
+}
+
+.intern-square.eat {
+  background: var(--e);
+}

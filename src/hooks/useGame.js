@@ -19,7 +19,8 @@ const getInitBoard = (width, height) => {
   return new Array(height).fill(new Array(width)).map((line) => line.fill(0));
 };
 
-const useGame = (width = 10, height = 20) => {
+
+const useGame = (width = 12, height = 12) => {
   const [board] = useState(() => getInitBoard(width, height));
   const [state, setState] = useState(gameState.PAUSED);
   const [snake, setSnake] = useState([
@@ -30,6 +31,16 @@ const useGame = (width = 10, height = 20) => {
   const [foodPosY, setFoodY] = useState(parseInt(Math.random() * height));
   const [currDirection, setDirection] = useState(direction.UP);
   const [apples, setApples] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newDimensions = getBoardDimensions();
+      setDimensions(newDimensions);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const generateNewFoodPosition = useCallback((currentSnake = snake) => {
     let newX, newY;
@@ -88,6 +99,7 @@ const useGame = (width = 10, height = 20) => {
       { x: 5, y: 5 },
       { x: 5, y: 6 }
     ]);
+    setDirection(direction.UP);
     setApples(0);
     setFoodX(Math.floor(Math.random() * width));
     setFoodY(Math.floor(Math.random() * height));
@@ -122,9 +134,11 @@ const useGame = (width = 10, height = 20) => {
 
     // Check for collision with self BEFORE creating new snake
     // We check against the current snake body (excluding head which will be replaced)
+
     const collision = snake.slice(1).some(segment =>
       segment.x === newHead.x && segment.y === newHead.y
     );
+
 
     if (collision) {
       setState(gameState.GAMEOVER);
@@ -152,7 +166,7 @@ const useGame = (width = 10, height = 20) => {
   // Initialize food position on mount and when snake changes
   useEffect(() => {
     generateNewFoodPosition();
-  }, []); // Only run on mount
+  }, []);
 
   return {
     state,

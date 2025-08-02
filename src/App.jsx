@@ -1,19 +1,20 @@
 import './App.css';
-import Board from './components/Board.jsx';
-import SnakeLogo from './snake-logo.svg';
+import GameBoy from './components/GameBoy.jsx';
+import GameBoyScreen from './components/GameBoyScreen.jsx';
+import { GameProvider } from './contexts/GameContext.jsx';
+import useGame from './hooks/useGame';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <div className="header_container">
-          <img src={SnakeLogo} alt="Snake Game Logo" className="App-logo" />
-          <h1>Snake Game</h1>
-        </div>
+  const gameControls = useGame();
 
-      </header>
-      <Board />
-    </div>
+  return (
+    <GameProvider>
+      <div className="App">
+        <GameBoy>
+          <GameBoyScreen />
+        </GameBoy>
+      </div>
+    </GameProvider>
   );
 }
 

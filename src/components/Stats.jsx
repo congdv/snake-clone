@@ -1,11 +1,12 @@
 import React from 'react';
+import "./Stats.css";
 
-const Stats = ({apples}) => {
+const Stats = ({ apples }) => {
   return (
     <>
-      <div className="scores border">
+      <div className="scores">
         <div className="score">
-          <div>Apples:</div>
+          <div>Score:</div>
         </div>
         <div className="values">
           <div>{apples}</div>

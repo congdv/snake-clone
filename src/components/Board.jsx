@@ -1,12 +1,12 @@
 
-import useGame, { gameState } from '../hooks/useGame';
+import { useGameContext } from '../contexts/GameContext.jsx';
+import { gameState } from '../hooks/useGame';
 import useKeyboard from '../hooks/useKeyboard';
-import Cell from './Cell.jsx';
-import Help from './Help.jsx';
-import Stats from './Stats.jsx';
+import './Board.css';
+import Cell from './Square.jsx';
 
 const Board = () => {
-  const { state, board, foodPosX, foodPosY, snake, up, down, right, left, apples, togglePause, restart } = useGame();
+  const { state, board, foodPosX, foodPosY, snake, up, down, right, left, togglePause, restart } = useGameContext();
 
   useKeyboard(
     (event) => {
@@ -39,7 +39,6 @@ const Board = () => {
 
   return (
     <div className="board">
-      <Help />
       <div className="lines border">
         {board.map((line, y) => (
           <div key={y} className="block-line">
@@ -58,13 +57,6 @@ const Board = () => {
             })}
           </div>
         ))}
-      </div>
-
-      <div className="stats">
-        <Stats apples={apples} />
-        <div className="state-bar border">
-          {state === gameState.GAMEOVER ? 'Game over' : state === gameState.PAUSED ? ' Game paused' : '.....'}
-        </div>
       </div>
     </div>
   );

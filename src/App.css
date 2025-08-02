@@ -9,6 +9,17 @@
   text-align: center;
 }
 
+/* Desktop layout - hidden on mobile */
+.desktop-layout {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .desktop-layout {
+    display: none;
+  }
+}
+
 .App-header {
   padding: 20px;
   color: black;
@@ -36,21 +47,6 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.board {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 30px;
-}
-
-.help {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-right: 15px;
-  width: 200px;
-}
 
 .descriptions {
   font-weight: 800;
@@ -66,105 +62,6 @@
   align-items: flex-start;
 }
 
-.state-bar {
-  height: 30px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.lines {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.border {
-  color: gray;
-  border-width: 3px;
-  border-style: solid;
-}
-
-.block-line {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-}
-
-.square {
-  float: left;
-  width: 12px;
-  border-width: 2px;
-  border-style: solid;
-  padding: 2px;
-  margin: 1px;
-}
-
-.square.none {
-  border-color: var(--none);
-}
-
-.square.highlight {
-  border-color: var(--i);
-}
-
-.intern-square {
-  width: 12px;
-  height: 12px;
-}
-
-.intern-square.none {
-  background: var(--none);
-}
-
-.intern-square.highlight {
-  background: var(--i);
-}
-
-.intern-square.food {
-  background: var(--o);
-}
-
-.intern-square.eat {
-  background: var(--e);
-}
-
 .game-over {
   background-color: var(--o);
-}
-
-
-.stats {
-  margin-left: 25px;
-  color: gray;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-}
-
-.scores {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  padding: 10px;
-  vertical-align: middle;
-}
-
-.score {
-  font-weight: 800;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.values {
-  margin-left: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
 }
