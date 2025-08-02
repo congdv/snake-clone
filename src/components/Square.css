@@ -1,0 +1,16 @@
+.square {
+  float: left;
+  width: 12px;
+  border-width: 2px;
+  border-style: solid;
+  padding: 2px;
+  margin: 1px;
+}
+
+.square.none {
+  border-color: var(--none);
+}
+
+.square.highlight {
+  border-color: var(--i);
+}

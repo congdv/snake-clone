@@ -1,3 +1,5 @@
+import "./Square.css";
+
 const Square = ({ isHighlight, isFood, isGameOver }) => {
   const highlight = () => {
     let className = 'intern-square';

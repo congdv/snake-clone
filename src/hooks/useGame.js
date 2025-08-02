@@ -16,6 +16,12 @@ export const gameState = {
 };
 
 const getInitBoard = (width, height) => {
+  const isMobile = window.innerWidth <= 768;
+  // Should have better logic to determine the width and height for the board
+  if (isMobile) {
+    width = 11;
+    height = 18;
+  }
   return new Array(height).fill(new Array(width)).map((line) => line.fill(0));
 };
 

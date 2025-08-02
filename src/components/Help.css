@@ -80,6 +80,10 @@
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
+  .method {
+    flex-direction: column;
+  }
+
   .help {
     font-size: 8px;
     padding: 6px;
