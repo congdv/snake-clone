@@ -10,7 +10,11 @@ export default defineConfig({
     watch: {
       usePolling: true
     },
-    allowedHosts: 'all'
+    allowedHosts: [
+      'snake-clone-production.up.railway.app',
+      'localhost',
+      '127.0.0.1'
+    ]
   },
   build: {
     outDir: 'dist'
