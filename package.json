@@ -11,7 +11,7 @@
     "react-dom": "^18.2.0"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --no-open",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist"
