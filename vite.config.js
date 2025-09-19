@@ -9,7 +9,8 @@ export default defineConfig({
     open: true,
     watch: {
       usePolling: true
-    }
+    },
+    allowedHosts: 'all'
   },
   build: {
     outDir: 'dist'
